@@ -1,0 +1,14 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Node.js backend for the Euro Arcade demo (zero dependency)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node -e 'console.log(\"No automated tests\")'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
