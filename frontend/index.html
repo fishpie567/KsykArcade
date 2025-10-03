@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Euro Arcade</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="app" class="app-shell">
+      <header class="top-nav">
+        <div class="brand">
+          <span class="logo">€</span>
+          <span class="title">Euro Arcade</span>
+        </div>
+        <nav class="main-nav">
+          <button class="nav-btn" data-view="home">Home</button>
+          <button class="nav-btn" data-view="dashboard">Dashboard</button>
+          <button class="nav-btn" data-view="arcade">Arcade</button>
+          <button class="nav-btn" data-view="admin">Admin</button>
+        </nav>
+        <div class="auth-actions">
+          <span id="user-greeting"></span>
+          <button id="login-btn" class="accent">Log in</button>
+          <button id="logout-btn" class="ghost">Log out</button>
+        </div>
+      </header>
+      <main id="view-container" class="view-container"></main>
+      <footer class="site-footer">
+        <p>© <span id="year"></span> Euro Arcade. All rights reserved.</p>
+      </footer>
+    </div>
+    <div id="modal-root"></div>
+    <script type="module" src="./assets/js/app.js"></script>
+  </body>
+</html>
