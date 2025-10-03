@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Euro Arcade</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR" data-sdk-integration-source="button-factory" async defer></script>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <div class="hero__branding">
+          <div class="logo">€</div>
+          <h1>Euro Arcade</h1>
+        </div>
+        <p class="tagline">Buy digital Euros, play arcade classics, and compete with friends.</p>
+        <nav class="hero__nav">
+          <a href="#account">Account</a>
+          <a href="#store">Buy Euros</a>
+          <a href="#games">Arcade</a>
+          <a href="#admin">Admin</a>
+          <a href="#guide">Setup Guide</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="account" class="card">
+        <h2>Account</h2>
+        <div class="grid two-column">
+          <div>
+            <h3>Register</h3>
+            <form id="register-form" class="stack">
+              <label>
+                Email
+                <input type="email" name="email" required />
+              </label>
+              <label>
+                Display name
+                <input type="text" name="displayName" placeholder="ArcadeHero" />
+              </label>
+              <label>
+                Password
+                <input type="password" name="password" minlength="8" required />
+              </label>
+              <button type="submit" class="primary">Create account</button>
+              <button type="button" id="resend-verification" class="ghost">Resend verification</button>
+            </form>
+            <p class="form-help" id="register-status"></p>
+          </div>
+          <div>
+            <h3>Log in</h3>
+            <form id="login-form" class="stack">
+              <label>
+                Email
+                <input type="email" name="email" required />
+              </label>
+              <label>
+                Password
+                <input type="password" name="password" required />
+              </label>
+              <button type="submit" class="primary">Log in</button>
+            </form>
+            <div id="google-signin" class="google-signin"></div>
+            <p class="form-help" id="login-status"></p>
+          </div>
+        </div>
+        <div class="account-info card subtle" id="account-info" hidden>
+          <h3>Welcome back, <span id="account-name"></span>!</h3>
+          <p>Email: <span id="account-email"></span></p>
+          <p>Balance: <span id="account-balance"></span> €</p>
+          <p>Status: <span id="account-status"></span></p>
+          <button id="logout-btn" class="secondary">Log out</button>
+        </div>
+      </section>
+
+      <section id="store" class="card">
+        <h2>Buy digital Euros</h2>
+        <p>Choose the amount of Euros you want to add to your arcade wallet. Payments are securely processed with PayPal.</p>
+        <div class="purchase-panel">
+          <label class="stack">
+            Amount in Euros
+            <input type="number" id="purchase-amount" min="5" step="1" value="10" />
+          </label>
+          <div id="paypal-button-container"></div>
+          <p class="form-help" id="paypal-status"></p>
+        </div>
+        <div class="card subtle" id="transactions" hidden>
+          <h3>Recent transactions</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Order ID</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody id="transactions-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="games" class="card">
+        <h2>Arcade lobby</h2>
+        <p>Jump into quick mini-games built to show off the arcade platform. Your balance is safe while you practice.</p>
+        <div class="games-grid">
+          <article class="game-card" data-game="coin-clicker">
+            <h3>Coin Clicker</h3>
+            <p>Click as many floating Euro coins as you can before the time runs out.</p>
+            <button class="secondary start-game" data-game="coin-clicker">Play</button>
+          </article>
+          <article class="game-card" data-game="memory-match">
+            <h3>Memory Match</h3>
+            <p>Flip cards to find matching pairs. Try to finish with the fewest moves.</p>
+            <button class="secondary start-game" data-game="memory-match">Play</button>
+          </article>
+        </div>
+        <div class="game-area" id="game-area" hidden>
+          <div class="game-header">
+            <h3 id="game-title"></h3>
+            <button class="ghost" id="close-game">Exit game</button>
+          </div>
+          <canvas id="coin-clicker-canvas" width="600" height="400" hidden></canvas>
+          <div id="memory-match-board" class="memory-board" hidden></div>
+          <p id="game-status"></p>
+        </div>
+      </section>
+
+      <section id="admin" class="card">
+        <h2>Admin tools</h2>
+        <p>Admins can adjust balances and manage user accounts.</p>
+        <div id="admin-panel" hidden>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Balance (€)</th>
+                <th>Verified</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users"></tbody>
+          </table>
+        </div>
+        <p class="form-help" id="admin-status"></p>
+      </section>
+
+      <section id="guide" class="card">
+        <h2>Setup guide</h2>
+        <ol class="stack">
+          <li>Install <strong>Node.js 18+</strong> on your server or local machine.</li>
+          <li>Duplicate the <code>.env.example</code> file (created in the repository root) to <code>.env</code> and fill in your credentials.</li>
+          <li>Run <code>npm install</code> inside the <code>server</code> folder if you want to add extra packages. The project works without additional dependencies.</li>
+          <li>Start the backend with <code>node server/index.js</code>. The same server will host this frontend.</li>
+          <li>Open <a href="http://localhost:4000" target="_blank">http://localhost:4000</a> in your browser to access the arcade.</li>
+          <li>Configure PayPal sandbox credentials and update the script tag at the top of this page with your client ID.</li>
+          <li>Optional: Enable Google sign-in by entering your <code>GOOGLE_CLIENT_ID</code> value in <code>.env</code> and the Google script configuration in <code>app.js</code>.</li>
+        </ol>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Built for fun by Euro Arcade. All purchases handled securely via PayPal.</p>
+    </footer>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>

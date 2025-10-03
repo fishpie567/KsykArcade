@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify your Euro Arcade account</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+      }
+      main {
+        max-width: 520px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Email verification</h1>
+      <p id="verify-message">Verifying your account...</p>
+      <a href="/" class="secondary" id="back-link" hidden>Back to Euro Arcade</a>
+    </main>
+    <script>
+      async function verify() {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        const messageEl = document.getElementById('verify-message');
+        const backLink = document.getElementById('back-link');
+        if (!token) {
+          messageEl.textContent = 'Missing verification token.';
+          backLink.hidden = false;
+          return;
+        }
+        try {
+          const response = await fetch('/api/auth/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token }),
+          });
+          const data = await response.json();
+          if (!response.ok) {
+            throw new Error(data.error || 'Verification failed');
+          }
+          messageEl.textContent = 'Success! Your email has been verified. You can close this tab and sign in.';
+          backLink.hidden = false;
+        } catch (err) {
+          messageEl.textContent = err.message;
+          backLink.hidden = false;
+        }
+      }
+      verify();
+    </script>
+  </body>
+</html>
